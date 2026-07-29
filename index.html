@@ -1126,8 +1126,7 @@ function evalThamDinh(d){
     case "tttm": case "cuahang":
       return F>=2000 ? R("yes",`Đạt ngưỡng: ΣF ≥ 2.000 m² (công trình: ${fmt(F)} m²).`,cc(6)) : R("no",`Chưa đạt ngưỡng ΣF ≥ 2.000 m² (công trình: ${fmt(F)} m²).`,cc(6));
     case "nhahang":
-      return F>=3000 ? R("warn",`Nghị định gốc bị lỗi OCR tại đúng con số ngưỡng ΣF của mục này ("3. )mể" — số bị mất ký tự, phỏng đoán 3.000 m² nhưng KHÔNG chắc chắn). Nếu ngưỡng đúng là 3.000 m²: đạt (ΣF ${fmt(F)} m²).`,cc(6),["Đây là lỗi thật của bản scan (không phải do công cụ) — cần bản PDF/Công báo gốc mục 6 Phụ lục III để xác nhận đúng con số trước khi kết luận cứng."])
-                     : R("warn",`Nghị định gốc bị lỗi OCR tại đúng con số ngưỡng ΣF của mục này ("3. )mể" — số bị mất ký tự, phỏng đoán 3.000 m² nhưng KHÔNG chắc chắn). Nếu ngưỡng đúng là 3.000 m²: chưa đạt (ΣF ${fmt(F)} m²).`,cc(6),["Đây là lỗi thật của bản scan (không phải do công cụ) — cần bản PDF/Công báo gốc mục 6 Phụ lục III để xác nhận đúng con số trước khi kết luận cứng."]);
+      return F>=3000 ? R("yes",`Đạt ngưỡng: ΣF ≥ 3.000 m² (công trình: ${fmt(F)} m²).`,cc(6)) : R("no",`Chưa đạt ngưỡng ΣF ≥ 3.000 m² (công trình: ${fmt(F)} m²).`,cc(6));
     case "khachsan": case "buudien": case "truso":
       return T>=7||F>=3000 ? R("yes",`Đạt ngưỡng: cao ≥ 7 tầng hoặc ΣF ≥ 3.000 m².`,cc(7)) : R("no",`Chưa đạt ngưỡng cao ≥ 7 tầng và ΣF ≥ 3.000 m².`,cc(7));
     case "honhop":
@@ -1150,7 +1149,8 @@ function evalThamDinh(d){
                                  : R("no",`Kho hạng ${d.hazard}: chưa đạt ngưỡng V ≥ 15.000 m³ và ΣF ≥ 2.000 m² (công trình: V ${fmt(V)} m³, ΣF ${fmt(F)} m²).`,cc(10));
       return R("no",`Kho hạng ${d.hazard}: mục 10 PL III chỉ áp dụng kho hạng A, B, C.`,cc(10));
     case "garakin":
-      return F>=2000 ? R("yes",`Đạt ngưỡng: ΣF ≥ 2.000 m².`,cc(12)) : R("no",`Chưa đạt ngưỡng ΣF ≥ 2.000 m².`,cc(12));
+      if(d.garaKin!=="kin") return R("no",`Mục 12 Phụ lục III chỉ áp dụng nhà để xe/nhà trưng bày ô tô, xe máy <b>dạng kín</b> — công trình dạng hở không thuộc diện thẩm định theo mục này.`,cc(12));
+      return F>=2000 ? R("yes",`Đạt ngưỡng: dạng kín, ΣF ≥ 2.000 m² (công trình: ${fmt(F)} m²).`,cc(12)) : R("no",`Chưa đạt ngưỡng: dạng kín, ΣF ≥ 2.000 m² (công trình: ${fmt(F)} m²).`,cc(12));
     case "nhaga":
       return F>=3000 ? R("yes",`Đạt ngưỡng: ΣF ≥ 3.000 m² (một số loại xét theo cấp công trình — kiểm tra thêm).`,cc(13)) : R("no",`Chưa đạt ngưỡng ΣF ≥ 3.000 m² (một số loại xét theo cấp công trình — kiểm tra thêm).`,cc(13));
   }
